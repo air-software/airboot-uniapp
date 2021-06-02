@@ -1,0 +1,59 @@
+{
+  "pages": [
+    {
+      "path": "pages/index/login",
+      "style": {
+        "navigationBarTitleText": "登录",
+        "navigationBarBackgroundColor": "#262935",
+        "app-plus": {
+          "bounce": "vertical"
+        }
+      }
+    },
+    {
+      "path": "pages/index/protocol",
+      "style": {
+        "navigationBarTitleText": "用户协议",
+        "navigationBarBackgroundColor": "#262935",
+        "app-plus": {
+          "bounce": "vertical"
+        }
+      }
+    },
+    {
+      "path": "pages/my/my",
+      "style": {
+        "navigationBarTitleText": "个人中心",
+        "navigationBarBackgroundColor": "#262935",
+        "app-plus": {
+          "bounce": "vertical"
+        }
+      }
+    },
+    {
+      "path": "pages/my/change-password",
+      "style": {
+        "navigationBarTitleText": "修改密码",
+        "navigationBarBackgroundColor": "#262935",
+        "app-plus": {
+          "bounce": "vertical"
+        }
+      }
+    }
+  ],
+  "easycom": {
+    "autoscan": true,
+    "custom": {
+      "tui-(.*)": "@/components/thorui/tui-$1/tui-$1.vue"
+    }
+  },
+  "globalStyle": {
+    "backgroundTextStyle": "dark",
+    "navigationBarBackgroundColor": "#5677FC",
+    "navigationBarTitleText": "AIRBOOT",
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#fafafa",
+    "backgroundColorTop": "#fafafa",
+    "backgroundColorBottom": "#fafafa"
+  }
+}

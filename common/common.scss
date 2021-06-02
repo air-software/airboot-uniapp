@@ -1,0 +1,553 @@
+/*app.wxss*/
+/* #ifndef APP-NVUE */
+
+::-webkit-scrollbar {
+	width: 0 !important;
+	height: 0 !important;
+	color: transparent !important;
+	display: none;
+}
+
+button::after {
+	border: none;
+}
+
+.container {
+	display: flex;
+	box-sizing: border-box;
+	flex-direction: column;
+}
+
+.tui-phcolor {
+	color: #ccc;
+	font-size: 32rpx;
+	overflow: visible;
+}
+
+.tui-opacity {
+	opacity: 0.5;
+}
+
+.tui-hover {
+	background-color: #f7f7f9 !important;
+}
+
+.tui-ellipsis {
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+
+/*按钮样式*/
+
+/*列表统一样式 */
+.tui-list-item {
+	position: relative;
+}
+
+.tui-list-item::after {
+	content: '';
+	position: absolute;
+	border-bottom: 1rpx solid #eaeef1;
+	-webkit-transform: scaleY(0.5);
+	transform: scaleY(0.5);
+	bottom: 0;
+	right: 0;
+	left: 30rpx;
+}
+
+.tui-last::after {
+	border-bottom: 0 !important;
+}
+
+.tui-button-primary {
+	width: 100%;
+	height: 90rpx;
+	line-height: 90rpx;
+	background: linear-gradient(-90deg, #5677fc, #5c8dff);
+	border-radius: 45rpx;
+	color: #fff;
+	font-size: 36rpx;
+}
+
+.tui-button-hover {
+	color: #d5d4d9;
+	background: linear-gradient(-90deg, #4a67d6, #4e77d9);
+}
+
+.tui-button-gray {
+	background: #ededed;
+	color: #999 !important;
+}
+
+.tui-button-gray_hover {
+	background: #d5d5d5 !important;
+	color: #898989;
+}
+
+.tui-button-white {
+	background: #fff;
+	color: #333 !important;
+}
+
+.tui-button-white_hover {
+	background: #e5e5e5 !important;
+	color: #2e2e2e !important;
+}
+
+/* thorui.css begin */
+
+.tui-mask {
+	width: 100%;
+	height: 100%;
+	position: fixed;
+	top: 0;
+	left: 0;
+	background: rgba(0, 0, 0, 0.4);
+	z-index: 999;
+}
+
+.tui-ellipsis {
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+.tui-ellipsis-2 {
+	display: -webkit-box;
+	overflow: hidden;
+	white-space: normal !important;
+	text-overflow: ellipsis;
+	word-wrap: break-word;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
+}
+
+.tui-opacity {
+	opacity: 0.5;
+}
+
+.tui-scale-small {
+	transform: scale(0.9);
+	transform-origin: center center;
+}
+
+.tui-height-full {
+	height: 100%;
+}
+
+.tui-width-full {
+	width: 100%;
+}
+
+.tui-ptop-zero {
+	padding-top: 0;
+}
+
+.tui-pbottom-zero {
+	padding-bottom: 0;
+}
+
+.tui-pleft-zero {
+	padding-left: 0;
+}
+
+.tui-pright-zero {
+	padding-right: 0;
+}
+
+.tui-col-12 {
+	width: 100%;
+}
+
+.tui-col-11 {
+	width: 91.66666667%;
+}
+
+.tui-col-10 {
+	width: 83.33333333%;
+}
+
+.tui-col-9 {
+	width: 75%;
+}
+
+.tui-col-8 {
+	width: 66.66666667%;
+}
+
+.tui-col-7 {
+	width: 58.33333333%;
+}
+
+.tui-col-6 {
+	width: 50%;
+}
+
+.tui-col-5 {
+	width: 41.66666667%;
+}
+
+.tui-col-4 {
+	width: 33.33333333%;
+}
+
+.tui-col-3 {
+	width: 25%;
+}
+
+.tui-col-2 {
+	width: 16.66666667%;
+}
+
+.tui-col-1 {
+	width: 8.33333333%;
+}
+
+/*Input输入框*/
+.tui-input-item {
+	width: 100%;
+	display: flex;
+	align-items: center;
+	font-size: 32rpx;
+
+}
+
+.tui-input {
+	flex: 1;
+	font-size: 32rpx;
+	overflow: visible;
+}
+
+.tui-input-title {
+	min-width: 140rpx;
+	padding-right: 12rpx;
+	flex-shrink: 0;
+}
+
+.tui-phcolor {
+	color: #ccc;
+	font-size: 32rpx;
+	overflow: visible;
+}
+
+.tui-input-border {
+	/* border: 1rpx solid #eaeef1; */
+	padding: 20rpx 30rpx;
+	border-radius: 4rpx;
+	position: relative;
+	font-size: 32rpx;
+}
+
+.tui-input-border::after {
+	content: '';
+	position: absolute;
+	height: 200%;
+	width: 200%;
+	border: 1px solid #e6e6e6;
+	transform-origin: 0 0;
+	-webkit-transform-origin: 0 0;
+	-webkit-transform: scale(0.5);
+	transform: scale(0.5);
+	left: 0;
+	top: 0;
+	border-radius: 8rpx;
+	pointer-events: none;
+}
+
+.tui-text-right {
+	text-align: right;
+}
+
+/*上传*/
+.tui-upload-box {
+	width: 100%;
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.tui-upload-item {
+	width: 220rpx;
+	height: 220rpx;
+	position: relative;
+	margin-right: 20rpx;
+	margin-bottom: 20rpx;
+}
+
+.tui-upload-item:nth-of-type(3n) {
+	margin-right: 0;
+}
+
+.tui-upload-img {
+	width: 220rpx;
+	height: 220rpx;
+	display: block;
+}
+
+.tui-upload-del {
+	position: absolute;
+	right: -18rpx;
+	top: -18rpx;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.tui-upload-add {
+	width: 220rpx;
+	height: 220rpx;
+	font-size: 68rpx;
+	font-weight: 100;
+	color: #888;
+	background-color: #F7F7F7;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 0;
+}
+
+/* 操作条*/
+.tui-operation {
+	width: 100%;
+	height: 100rpx;
+	box-sizing: border-box;
+	overflow: hidden;
+	background: rgba(255, 255, 255, 0.9);
+	position: relative;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.tui-operation::before {
+	content: '';
+	position: absolute;
+	top: 0px;
+	right: 0;
+	left: 0;
+	border-top: 1rpx solid #eaeef1;
+	-webkit-transform: scaleY(0.5);
+	transform: scaleY(0.5);
+}
+
+.tui-operation-left {
+	display: flex;
+	align-items: center;
+}
+
+.tui-operation-item {
+	flex: 1;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+	position: relative;
+}
+
+.tui-operation-text {
+	font-size: 22rpx;
+	color: #333;
+}
+
+.tui-operation-right {
+	flex: 1;
+	height: 100rpx;
+	box-sizing: border-box;
+	padding-top: 0;
+}
+
+.tui-relative {
+	position: relative;
+}
+
+.tui-btn-comment {
+	height: 64rpx;
+	width: 84%;
+	background: #ededed;
+	color: #999;
+	border-radius: 8rpx;
+	font-size: 28rpx;
+	display: flex;
+	align-items: center;
+	padding-left: 20rpx;
+	box-sizing: border-box;
+	padding-top: 0;
+	margin-left: 30rpx;
+}
+
+.tui-chat-operation {
+	background: #F6F6F6 !important;
+	padding-right: 18rpx;
+	box-sizing: border-box;
+}
+
+.tui-input-box {
+	width: 78%;
+	justify-content: flex-start;
+}
+
+.tui-chat-input {
+	background: #fff;
+	height: 72rpx;
+	border-radius: 6rpx;
+	padding-left: 20rpx;
+	padding-right: 20rpx;
+	flex: 1;
+}
+
+.tui-voice-icon {
+	margin-left: 20rpx;
+	margin-right: 20rpx
+}
+
+/*layout end*/
+
+/* thorui.css end */
+
+
+/*自定义开始*/
+page {
+	background-color: #ffffff;
+	font-size: 32rpx;
+}
+
+uni-page-body, page {
+	height: 100%;
+}
+
+.full {
+	width: 100%;
+	height: 100%;
+}
+
+.w100 {
+	width: 100%;
+}
+
+.h100 {
+	height: 100%;
+}
+
+em {
+	color: $color-orange;
+	margin-right: 5rpx;
+}
+
+@keyframes around {
+	from {
+		margin-left: 100%;
+	}
+
+	to {
+		margin-left: -100%;
+	}
+}
+
+.flex {
+	display: flex;
+
+	&.vertical {
+		flex-direction: column;
+	}
+
+	&.center {
+		justify-content: center;
+		align-items: center;
+	}
+	&.jcenter {
+		justify-content: center;
+	}
+	&.acenter {
+		align-items: center;
+	}
+
+	&.jbetween {
+		justify-content: space-between;
+	}
+	&.jaround {
+		justify-content: space-around;
+	}
+	&.jevenly {
+		justify-content: space-evenly;
+	}
+
+	&.jend {
+		justify-content: flex-end;
+	}
+	&.aend {
+		align-items: flex-end;
+	}
+}
+
+.color-primary {
+	color: $color-primary;
+}
+
+.color-orange {
+	color: $color-orange;
+}
+
+.color-green {
+	color: $color-green;
+}
+
+.color-black {
+	color: $color-black;
+}
+
+.color-cyan {
+	color: $color-cyan;
+}
+
+.primary-btn, .primary-btn /deep/.tui-btn {
+	color: $color-black !important;
+	font-weight: bold;
+	background-color: $color-primary !important;
+}
+
+.primary-btn.tui-primary-hover, .primary-btn /deep/.tui-btn.tui-primary-hover {
+	color: $uni-color-white !important;
+	background-color: $color-primary !important;
+	opacity: 0.8;
+}
+
+.orange-btn, .orange-btn /deep/.tui-btn {
+	color: $uni-color-white !important;
+	font-weight: bold;
+	background-color: $color-orange !important;
+}
+
+.orange-btn.tui-primary-hover, .orange-btn /deep/.tui-btn.tui-primary-hover {
+	color: $uni-color-white !important;
+	background-color: $color-orange !important;
+	opacity: 0.8;
+}
+
+.green-btn, .green-btn /deep/.tui-btn {
+	color: $uni-color-white !important;
+	font-weight: bold;
+	background-color: $color-green !important;
+}
+
+.green-btn.tui-primary-hover, .green-btn /deep/.tui-btn.tui-primary-hover {
+	color: $uni-color-white !important;
+	background-color: $color-green !important;
+	opacity: 0.8;
+}
+
+.cyan-btn, .cyan-btn /deep/.tui-btn {
+	color: $uni-color-white !important;
+	font-weight: bold;
+	background-color: $color-cyan !important;
+}
+
+.cyan-btn.tui-primary-hover, .cyan-btn /deep/.tui-btn.tui-primary-hover {
+	color: $uni-color-white !important;
+	background-color: $color-cyan !important;
+	opacity: 0.8;
+}
+
+/*自定义结束*/
+
+/* #endif */
