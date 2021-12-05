@@ -1,33 +1,29 @@
 <template>
-	<view
-		class="tui-tabs-view"
-		:class="[isFixed ? 'tui-tabs-fixed' : 'tui-tabs-relative', unlined ? 'tui-unlined' : '']"
-		:style="{
+	<view class="tui-tabs-view"
+				:class="[isFixed ? 'tui-tabs-fixed' : 'tui-tabs-relative', unlined ? 'tui-unlined' : '']" :style="{
 			width: tabsWidth + 'px',
 			height: height + 'rpx',
 			padding: `0 ${padding}rpx`,
 			background: backgroundColor,
 			top: isFixed ? top + 'px' : 'auto',
 			zIndex: isFixed ? zIndex : 'auto'
-		}"
-	>
-		<view v-for="(item, index) in tabs" :key="index" class="tui-tabs-item" :style="{ width: itemWidth }" @tap.stop="swichTabs(index)">
-			<view
-				class="tui-tabs-title"
-				:class="{ 'tui-tabs-active': currentTab == index, 'tui-tabs-disabled': item.disabled }"
-				:style="{
+		}" v-if="tabsWidth>0">
+		<view v-for="(item, index) in tabs" :key="index" class="tui-tabs-item" :style="{ width: itemWidth }"
+					@tap.stop="swichTabs(index)">
+			<view class="tui-tabs-title"
+						:class="{ 'tui-tabs-active': currentTab == index, 'tui-tabs-disabled': item.disabled }" :style="{
 					color: currentTab == index ? selectedColor : color,
 					fontSize: size + 'rpx',
-					lineHeight: size + 'rpx',
 					fontWeight: bold && currentTab == index ? 'bold' : 'normal'
-				}"
-			>
+				}">
 				{{ item.name }}
+				<view :class="[item.isDot ? 'tui-badge__dot' : 'tui-tabs__badge']"
+							:style="{ color: badgeColor, backgroundColor: badgeBgColor }" v-if="item.num || item.isDot">
+					{{ item.isDot ? '' : item.num }}
+				</view>
 			</view>
 		</view>
-		<view
-			class="tui-tabs-slider"
-			:style="{
+		<view class="tui-tabs-slider" :style="{
 				transform: 'translateX(' + scrollLeft + 'px)',
 				width: sliderWidth + 'rpx',
 				height: sliderHeight + 'rpx',
@@ -35,19 +31,19 @@
 				bottom: bottom,
 				background: sliderBgColor,
 				marginBottom: bottom == '50%' ? '-' + sliderHeight / 2 + 'rpx' : 0
-			}"
-		></view>
+			}"></view>
 	</view>
 </template>
 
 <script>
 export default {
 	name: 'tuiTabs',
+	emits: ['change'],
 	props: {
 		//标签页
 		tabs: {
 			type: Array,
-			default() {
+			default () {
 				return [];
 			}
 		},
@@ -144,6 +140,16 @@ export default {
 		bold: {
 			type: Boolean,
 			default: false
+		},
+		//角标字体颜色
+		badgeColor: {
+			type: String,
+			default: '#fff'
+		},
+		//角标背景颜色
+		badgeBgColor: {
+			type: String,
+			default: '#F74D54'
 		},
 		zIndex: {
 			type: [Number, String],
@@ -248,6 +254,7 @@ export default {
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	overflow: visible;
 }
 
 .tui-tabs-disabled {
@@ -259,7 +266,8 @@ export default {
 	align-items: center;
 	justify-content: center;
 	position: relative;
-	z-index: 2;
+	z-index: 3;
+	overflow: visible;
 }
 
 .tui-tabs-active {
@@ -270,7 +278,35 @@ export default {
 	position: absolute;
 	left: 0;
 	transition: all 0.15s ease-in-out;
-	z-index: 0;
-	transform: translateZ(0);
+	z-index: 1;
+	transform-style: preserve-3d;
+}
+
+.tui-tabs__badge {
+	position: absolute;
+	font-size: 24rpx;
+	height: 32rpx;
+	min-width: 20rpx;
+	padding: 0 6rpx;
+	border-radius: 40rpx;
+	right: 0;
+	top: 0;
+	transform: translate(88%, -50%);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-shrink: 0;
+	z-index: 4;
+	font-weight: normal !important;
+}
+
+.tui-badge__dot {
+	position: absolute;
+	height: 16rpx;
+	width: 16rpx;
+	border-radius: 50%;
+	right: -10rpx;
+	top: -10rpx;
+	z-index: 4;
 }
 </style>

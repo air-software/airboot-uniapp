@@ -1,51 +1,39 @@
 <template>
 	<view class="tui-cascade-selection">
-		<scroll-view
-			scroll-x
-			scroll-with-animation
-			:scroll-into-view="scrollViewId"
-			:style="{ backgroundColor: headerBgColor }"
-			class="tui-bottom-line"
-			:class="{ 'tui-btm-none': !headerLine }"
-		>
+		<scroll-view scroll-x scroll-with-animation :scroll-into-view="scrollViewId"
+								 :style="{ backgroundColor: headerBgColor }" class="tui-bottom-line"
+								 :class="{ 'tui-btm-none': !headerLine }">
 			<view class="tui-selection-header" :style="{ height: tabsHeight, backgroundColor: backgroundColor }">
-				<view
-					class="tui-header-item"
-					:class="{ 'tui-font-bold': index === currentTab && bold }"
-					:style="{ color: index === currentTab ? activeColor : color, fontSize: size + 'rpx' }"
-					:id="`id_${index}`"
-					@tap.stop="swichNav"
-					:data-current="index"
-					v-for="(item, index) in selectedArr"
-					:key="index"
-				>
+				<view class="tui-header-item" :class="{ 'tui-font-bold': idx === currentTab && bold }"
+							:style="{ color: idx === currentTab ? activeColor : color, fontSize: size + 'rpx' }"
+							:id="`id_${idx}`" @tap.stop="swichNav" :data-current="idx" v-for="(item, idx) in selectedArr"
+							:key="idx">
 					{{ item.text }}
-					<view class="tui-active-line" :style="{ backgroundColor: lineColor }" v-if="index === currentTab && showLine"></view>
+					<view class="tui-active-line" :style="{ backgroundColor: lineColor }"
+								v-if="idx === currentTab && showLine"></view>
 				</view>
 			</view>
 		</scroll-view>
-		<swiper class="tui-selection-list" :current="currentTab" duration="300" @change="switchTab" :style="{ height: height, backgroundColor: backgroundColor }">
+		<swiper class="tui-selection-list" :current="currentTab" duration="300" @change="switchTab"
+						:style="{ height: height, backgroundColor: backgroundColor }">
 			<swiper-item v-for="(item, index) in selectedArr" :key="index">
-				<scroll-view scroll-y :scroll-into-view="item.scrollViewId" class="tui-selection-item" :style="{ height: height }">
+				<scroll-view scroll-y :scroll-into-view="item.scrollViewId" class="tui-selection-item"
+										 :style="{ height: height }">
 					<view class="tui-first-item" :style="{ height: firstItemTop }"></view>
-					<view
-						class="tui-selection-cell"
-						:style="{ padding: padding, backgroundColor: backgroundColor }"
-						:id="`id_${subIndex}`"
-						v-for="(subItem, subIndex) in item.list"
-						:key="subIndex"
-						@tap="change(index, subIndex, subItem)"
-					>
-						<icon type="success_no_circle" v-if="item.index === subIndex" :color="checkMarkColor" :size="checkMarkSize" class="tui-icon-success"></icon>
-						<image :src="subItem.src" v-if="subItem.src" class="tui-cell-img" :style="{ width: imgWidth, height: imgHeight, borderRadius: radius }"></image>
-						<view
-							class="tui-cell-title"
-							:class="{ 'tui-font-bold': item.index === subIndex && textBold, 'tui-flex-shrink': nowrap }"
-							:style="{ color: item.index === subIndex ? textActiveColor : textColor, fontSize: textSize + 'rpx' }"
-						>
+					<view class="tui-selection-cell" :style="{ padding: padding, backgroundColor: backgroundColor }"
+								:id="`id_${subIndex}`" v-for="(subItem, subIndex) in item.list" :key="subIndex"
+								@tap="change(index, subIndex, subItem)">
+						<icon type="success_no_circle" v-if="item.index === subIndex" :color="checkMarkColor"
+									:size="checkMarkSize" class="tui-icon-success"></icon>
+						<image :src="subItem.src" v-if="subItem.src" class="tui-cell-img"
+									 :style="{ width: imgWidth, height: imgHeight, borderRadius: radius }"></image>
+						<view class="tui-cell-title"
+									:class="{ 'tui-font-bold': item.index === subIndex && textBold, 'tui-flex-shrink': nowrap }"
+									:style="{ color: item.index === subIndex ? textActiveColor : textColor, fontSize: textSize + 'rpx' }">
 							{{ subItem.text }}
 						</view>
-						<view class="tui-cell-sub_title" :style="{ color: subTextColor, fontSize: subTextSize + 'rpx' }" v-if="subItem.subText">{{ subItem.subText }}</view>
+						<view class="tui-cell-sub_title" :style="{ color: subTextColor, fontSize: subTextSize + 'rpx' }"
+									v-if="subItem.subText">{{ subItem.subText }}</view>
 					</view>
 				</scroll-view>
 			</swiper-item>
@@ -56,23 +44,24 @@
 <script>
 export default {
 	name: 'tuiCascadeSelection',
+	emits: ['change','complete'],
 	props: {
 		/**
-			 * 如果下一级是请求返回，则为第一级数据，否则所有数据
-			 * 数据格式
-			  [{
-				  src: "",
-				  text: "",
-				  subText: "",
-				  value: 0,
-				  children:[{
+		 * 如果下一级是请求返回，则为第一级数据，否则所有数据
+		 * 数据格式
+		 [{
+					  src: "",
 					  text: "",
 					  subText: "",
 					  value: 0,
-					  children:[]
-			   }]
-			  }]
-			 * */
+					  children:[{
+						  text: "",
+						  subText: "",
+						  value: 0,
+						  children:[]
+				   }]
+				  }]
+		 * */
 		itemList: {
 			type: Array,
 			default: () => {
@@ -80,17 +69,17 @@ export default {
 			}
 		},
 		/*
-		   初始化默认选中数据
-		   [{
-			text: "",//选中text
-			subText: '',//选中subText
-			value: '',//选中value
-			src: '', //选中src，没有则传空或不传
-			index: 0, //选中数据在当前layer索引
-			list: [{src: "", text: "", subText: "", value: 101}] //所有layer数据集合
-		  }];
-		    
-		   */
+       初始化默认选中数据
+       [{
+      text: "",//选中text
+      subText: '',//选中subText
+      value: '',//选中value
+      src: '', //选中src，没有则传空或不传
+      index: 0, //选中数据在当前layer索引
+      list: [{src: "", text: "", subText: "", value: 101}] //当前layer下所有数据集合
+      }];
+       
+       */
 		defaultItemList: {
 			type: Array,
 			value: []
@@ -252,7 +241,7 @@ export default {
 		reset() {
 			this.initData(this.itemList, -1);
 		},
-		defaultItemList(val){
+		defaultItemList(val) {
 			this.setDefaultData(val)
 		}
 	},
@@ -268,7 +257,7 @@ export default {
 		};
 	},
 	methods: {
-		setDefaultData(val){
+		setDefaultData(val) {
 			let defaultItemList = val || [];
 			if (defaultItemList.length > 0) {
 				defaultItemList.map(item => {
@@ -360,13 +349,12 @@ export default {
 			item.value = subItem.value;
 			item.subText = subItem.subText || '';
 			item.src = subItem.src || '';
-
 			this.$emit('change', {
 				layer: index,
 				subIndex: subIndex, //layer=> Array index
 				...subItem
 			});
-
+			
 			if (!this.request) {
 				let data = this.getItemList(index, subIndex);
 				this.subLevelData(data, index);
@@ -377,6 +365,11 @@ export default {
 			if (!data || data.length === 0) {
 				if (layer == -1) return;
 				//完成选择
+				let arr = this.selectedArr;
+				if (layer < arr.length - 1) {
+					let newArr = arr.slice(0, layer + 1);
+					this.selectedArr = newArr;
+				}
 				let result = JSON.parse(JSON.stringify(this.selectedArr));
 				let lastItem = result[result.length - 1] || {};
 				let text = '';
@@ -396,17 +389,15 @@ export default {
 				});
 			} else {
 				//重置数据（ >layer层级）
-				let item = [
-					{
-						text: this.text,
-						subText: '',
-						value: '',
-						src: '',
-						index: -1,
-						scrollViewId: 'id__1',
-						list: data
-					}
-				];
+				let item = [{
+					text: this.text,
+					subText: '',
+					value: '',
+					src: '',
+					index: -1,
+					scrollViewId: 'id__1',
+					list: data
+				}];
 				if (layer == -1) {
 					this.selectedArr = item;
 				} else {
@@ -515,6 +506,7 @@ export default {
 	margin-left: 20rpx;
 	word-break: break-all;
 }
+
 .tui-first-item {
 	width: 100%;
 }

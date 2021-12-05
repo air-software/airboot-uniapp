@@ -1,31 +1,22 @@
 <template>
 	<view @touchmove.stop.prevent="stop" v-if="isFixed">
 		<view class="tui-bottom-popup" :class="{'tui-popup-show': isShow}">
-			<view class="tui-calendar-header" :class="{ 'tui-calendar-radius': radius }" >
+			<view class="tui-calendar-header" :class="{ 'tui-calendar-radius': radius }">
 				<view>日期选择</view>
-				<view class="tui-iconfont tui-font-close" hover-class="tui-opacity" :hover-stay-time="150" @tap="hide"></view>
+				<view class="tui-iconfont tui-font-close" hover-class="tui-opacity" :hover-stay-time="150" @tap="hide">
+				</view>
 			</view>
 			
 			<view class="tui-date-box">
-				<view
-					class="tui-iconfont tui-font-arrowleft"
-					:style="{ color: yearArrowColor }"
-					hover-class="tui-opacity"
-					:hover-stay-time="150"
-					v-if="arrowType == 1"
-					@tap="changeYear(0)"
-				></view>
-				<view class="tui-iconfont tui-font-arrowleft" :style="{ color: monthArrowColor }" hover-class="tui-opacity" :hover-stay-time="150" @tap="changeMonth(0)"></view>
+				<view class="tui-iconfont tui-font-arrowleft" :style="{ color: yearArrowColor }"
+							hover-class="tui-opacity" :hover-stay-time="150" v-if="arrowType == 1" @tap="changeYear(0)"></view>
+				<view class="tui-iconfont tui-font-arrowleft" :style="{ color: monthArrowColor }"
+							hover-class="tui-opacity" :hover-stay-time="150" @tap="changeMonth(0)"></view>
 				<view class="tui-date_time">{{ showTitle }}</view>
-				<view class="tui-iconfont tui-font-arrowright" :style="{ color: monthArrowColor }" hover-class="tui-opacity" :hover-stay-time="150" @tap="changeMonth(1)"></view>
-				<view
-					class="tui-iconfont tui-font-arrowright"
-					:style="{ color: yearArrowColor }"
-					hover-class="tui-opacity"
-					:hover-stay-time="150"
-					v-if="arrowType == 1"
-					@tap="changeYear(1)"
-				></view>
+				<view class="tui-iconfont tui-font-arrowright" :style="{ color: monthArrowColor }"
+							hover-class="tui-opacity" :hover-stay-time="150" @tap="changeMonth(1)"></view>
+				<view class="tui-iconfont tui-font-arrowright" :style="{ color: yearArrowColor }"
+							hover-class="tui-opacity" :hover-stay-time="150" v-if="arrowType == 1" @tap="changeYear(1)"></view>
 			</view>
 			<view class="tui-date-header">
 				<view class="tui-date">日</view>
@@ -36,32 +27,33 @@
 				<view class="tui-date">五</view>
 				<view class="tui-date">六</view>
 			</view>
-			<view class="tui-date-content" :class="{ 'tui-flex-start': isFixed && fixedHeight }" :style="{ height: isFixed && fixedHeight ? dateHeight * 6 + 'px' : 'auto' }">
-				<block v-for="(item, index) in weekdayArr" :key="index"><view class="tui-date"></view></block>
-				<view
-					class="tui-date"
-					:class="{
+			<view class="tui-date-content" :class="{ 'tui-flex-start': isFixed && fixedHeight }"
+						:style="{ height: isFixed && fixedHeight ? dateHeight * 6 + 'px' : 'auto' }">
+				<block v-for="(item, index) in weekdayArr" :key="index">
+					<view class="tui-date"></view>
+				</block>
+				<view class="tui-date" :class="{
 						'tui-date-pd_0': isFixed && fixedHeight,
 						'tui-opacity': openDisAbled(year, month, index + 1),
 						'tui-start-date': (type == 2 && startDate == `${year}-${month}-${index + 1}`) || type == 1,
 						'tui-end-date': (type == 2 && endDate == `${year}-${month}-${index + 1}`) || type == 1
-					}"
-					:style="{ backgroundColor: isFixed ? getColor(index, 1) : 'transparent', height: isFixed && fixedHeight ? dateHeight + 'px' : 'auto' }"
-					v-for="(item, index) in daysArr"
-					:key="index"
-					@tap="dateClick(index)"
-				>
-					<view class="tui-date-text" :style="{ color: isFixed ? getColor(index, 2) : getStatusData(3, index), backgroundColor: getStatusData(2, index) }">
+					}" :style="{ backgroundColor: isFixed ? getColor(index, 1) : 'transparent', height: isFixed && fixedHeight ? dateHeight + 'px' : 'auto' }"
+							v-for="(item, index) in daysArr" :key="index" @tap="dateClick(index)">
+					<view class="tui-date-text"
+								:style="{ color: isFixed ? getColor(index, 2) : getStatusData(3, index), backgroundColor: getStatusData(2, index) }">
 						<view v-if="isFixed || !getStatusData(4, index)">{{ index + 1 }}</view>
-						<view v-if="!getStatusData(4, index)" class="tui-custom-desc" :class="{ 'tui-lunar-unshow': !lunar && isFixed }">
+						<view v-if="!getStatusData(4, index)" class="tui-custom-desc"
+									:class="{ 'tui-lunar-unshow': !lunar && isFixed }">
 							{{ getDescText(index, startDate, endDate) }}
 						</view>
 						<text class="tui-iconfont tui-font-check" v-if="getStatusData(4, index)"></text>
 					</view>
-					<view class="tui-date-desc" :style="{ color: activeColor }" v-if="!lunar && type == 2 && startDate == `${year}-${month}-${index + 1}` && startDate != endDate">
+					<view class="tui-date-desc" :style="{ color: activeColor }"
+								v-if="!lunar && type == 2 && startDate == `${year}-${month}-${index + 1}` && startDate != endDate">
 						{{ startText }}
 					</view>
-					<view class="tui-date-desc" :style="{ color: activeColor }" v-if="!lunar && type == 2 && endDate == `${year}-${month}-${index + 1}`">{{ endText }}</view>
+					<view class="tui-date-desc" :style="{ color: activeColor }"
+								v-if="!lunar && type == 2 && endDate == `${year}-${month}-${index + 1}`">{{ endText }}</view>
 				</view>
 				<view class="tui-bg-month">{{ month }}</view>
 			</view>
@@ -71,33 +63,27 @@
 					<text>{{ type == 1 ? activeDate : startDate }}</text>
 					<text v-if="endDate">至{{ endDate }}</text>
 				</view>
-				<view class="tui-calendar-btn_box"><tui-button :type="btnType" height="72rpx" shape="circle" :size="28" @click="btnFix(false)">确定</tui-button></view>
+				<view class="tui-calendar-btn_box">
+					<tui-button :type="btnType" height="72rpx" shape="circle" :size="28" :disabled="disabled"
+											@click="btnFix(false)">确定
+					</tui-button>
+				</view>
 			</view>
 		</view>
 		
-		<view class="tui-popup-mask" :class="[isShow ? 'tui-mask-show' : '']"  @tap="hide"></view>
+		<view class="tui-popup-mask" :class="[isShow ? 'tui-mask-show' : '']" @tap="hide"></view>
 	</view>
 	<view v-else>
 		<view class="tui-date-box">
-			<view
-				class="tui-iconfont tui-font-arrowleft"
-				:style="{ color: yearArrowColor }"
-				hover-class="tui-opacity"
-				:hover-stay-time="150"
-				v-if="arrowType == 1"
-				@tap="changeYear(0)"
-			></view>
-			<view class="tui-iconfont tui-font-arrowleft" :style="{ color: monthArrowColor }" hover-class="tui-opacity" :hover-stay-time="150" @tap="changeMonth(0)"></view>
+			<view class="tui-iconfont tui-font-arrowleft" :style="{ color: yearArrowColor }" hover-class="tui-opacity"
+						:hover-stay-time="150" v-if="arrowType == 1" @tap="changeYear(0)"></view>
+			<view class="tui-iconfont tui-font-arrowleft" :style="{ color: monthArrowColor }" hover-class="tui-opacity"
+						:hover-stay-time="150" @tap="changeMonth(0)"></view>
 			<view class="tui-date_time">{{ showTitle }}</view>
-			<view class="tui-iconfont tui-font-arrowright" :style="{ color: monthArrowColor }" hover-class="tui-opacity" :hover-stay-time="150" @tap="changeMonth(1)"></view>
-			<view
-				class="tui-iconfont tui-font-arrowright"
-				:style="{ color: yearArrowColor }"
-				hover-class="tui-opacity"
-				:hover-stay-time="150"
-				v-if="arrowType == 1"
-				@tap="changeYear(1)"
-			></view>
+			<view class="tui-iconfont tui-font-arrowright" :style="{ color: monthArrowColor }" hover-class="tui-opacity"
+						:hover-stay-time="150" @tap="changeMonth(1)"></view>
+			<view class="tui-iconfont tui-font-arrowright" :style="{ color: yearArrowColor }" hover-class="tui-opacity"
+						:hover-stay-time="150" v-if="arrowType == 1" @tap="changeYear(1)"></view>
 		</view>
 		<view class="tui-date-header">
 			<view class="tui-date">日</view>
@@ -109,31 +95,31 @@
 			<view class="tui-date">六</view>
 		</view>
 		<view class="tui-date-content" :style="{ height: isFixed && fixedHeight ? dateHeight * 6 + 'px' : 'auto' }">
-			<block v-for="(item, index) in weekdayArr" :key="index"><view class="tui-date"></view></block>
-			<view
-				class="tui-date"
-				:class="{
+			<block v-for="(item, index) in weekdayArr" :key="index">
+				<view class="tui-date"></view>
+			</block>
+			<view class="tui-date" :class="{
 					'tui-date-pd_0': isFixed && fixedHeight,
 					'tui-opacity': openDisAbled(year, month, index + 1),
 					'tui-start-date': (type == 2 && startDate == `${year}-${month}-${index + 1}`) || type == 1,
 					'tui-end-date': (type == 2 && endDate == `${year}-${month}-${index + 1}`) || type == 1
-				}"
-				:style="{ backgroundColor: isFixed ? getColor(index, 1) : 'transparent', height: isFixed && fixedHeight ? dateHeight + 'px' : 'auto' }"
-				v-for="(item, index) in daysArr"
-				:key="index"
-				@tap="dateClick(index)"
-			>
-				<view class="tui-date-text" :style="{ color: isFixed ? getColor(index, 2) : getStatusData(3, index), backgroundColor: getStatusData(2, index) }">
+				}" :style="{ backgroundColor: isFixed ? getColor(index, 1) : 'transparent', height: isFixed && fixedHeight ? dateHeight + 'px' : 'auto' }"
+						v-for="(item, index) in daysArr" :key="index" @tap="dateClick(index)">
+				<view class="tui-date-text"
+							:style="{ color: isFixed ? getColor(index, 2) : getStatusData(3, index), backgroundColor: getStatusData(2, index) }">
 					<view v-if="isFixed || !getStatusData(4, index)">{{ index + 1 }}</view>
-					<view v-if="!getStatusData(4, index)" class="tui-custom-desc" :class="{ 'tui-lunar-unshow': !lunar && isFixed }">
+					<view v-if="!getStatusData(4, index)" class="tui-custom-desc"
+								:class="{ 'tui-lunar-unshow': !lunar && isFixed }">
 						{{ getDescText(index, startDate, endDate) }}
 					</view>
 					<text class="tui-iconfont tui-font-check" v-if="getStatusData(4, index)"></text>
 				</view>
-				<view class="tui-date-desc" :style="{ color: activeColor }" v-if="!lunar && type == 2 && startDate == `${year}-${month}-${index + 1}` && startDate != endDate">
+				<view class="tui-date-desc" :style="{ color: activeColor }"
+							v-if="!lunar && type == 2 && startDate == `${year}-${month}-${index + 1}` && startDate != endDate">
 					{{ startText }}
 				</view>
-				<view class="tui-date-desc" :style="{ color: activeColor }" v-if="!lunar && type == 2 && endDate == `${year}-${month}-${index + 1}`">{{ endText }}</view>
+				<view class="tui-date-desc" :style="{ color: activeColor }"
+							v-if="!lunar && type == 2 && endDate == `${year}-${month}-${index + 1}`">{{ endText }}</view>
 			</view>
 			<view class="tui-bg-month">{{ month }}</view>
 		</view>
@@ -142,9 +128,10 @@
 <script>
 //easycom组件模式 无需手动引入
 // import tuiButton from "../tui-button/tui-button"
-const calendar = require('./tui-calendar.js');
+import calendar from './tui-calendar.js';
 export default {
 	name: 'tuiCalendar',
+	emits: ['hide', 'change'],
 	// components:{
 	// 	tuiButton
 	// },
@@ -197,12 +184,12 @@ export default {
 		 * color:""  文字颜色,
 		 * check:false //是否显示对勾
 		 *
-				 }]
+					 }]
 		 *
 		 * **/
 		status: {
 			type: Array,
-			default() {
+			default () {
 				return [];
 			}
 		},
@@ -322,6 +309,9 @@ export default {
 	computed: {
 		dataChange() {
 			return `${this.type}-${this.minDate}-${this.maxDate}-${this.initStartDate}-${this.initEndDate}`;
+		},
+		disabled() {
+			return this.type == 2 && (!this.startDate || !this.endDate)
 		}
 	},
 	watch: {
@@ -548,7 +538,8 @@ export default {
 				if (this.type == 1) {
 					this.activeDate = date;
 				} else {
-					let compare = new Date(date.replace(/\-/g, '/')).getTime() < new Date(this.startDate.replace(/\-/g, '/')).getTime();
+					let compare = new Date(date.replace(/\-/g, '/')).getTime() < new Date(this.startDate.replace(
+						/\-/g, '/')).getTime();
 					if (this.isStart || compare) {
 						this.startDate = date;
 						this.startYear = this.year;
@@ -651,8 +642,7 @@ export default {
 <style scoped>
 @font-face {
 	font-family: 'tuiDateFont';
-	src: url(data:application/font-woff;charset=utf-8;base64,d09GRgABAAAAAAVgAA0AAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABGRlRNAAAFRAAAABoAAAAci0/w50dERUYAAAUkAAAAHgAAAB4AKQANT1MvMgAAAaAAAABDAAAAVjxuSNNjbWFwAAAB+AAAAEoAAAFS5iPQt2dhc3AAAAUcAAAACAAAAAj//wADZ2x5ZgAAAlQAAAFHAAABvPf29TBoZWFkAAABMAAAADAAAAA2GMsN3WhoZWEAAAFgAAAAHQAAACQHjAOFaG10eAAAAeQAAAATAAAAFgzQAPJsb2NhAAACRAAAABAAAAAQAOoBSG1heHAAAAGAAAAAHgAAACABEwA3bmFtZQAAA5wAAAFJAAACiCnmEVVwb3N0AAAE6AAAADQAAABLUwjqHHjaY2BkYGAAYp5Gj5/x/DZfGbhZGEDg1tUn7+F00P/LzOuY9YFcDgYmkCgAa0gNlHjaY2BkYGBu+N/AEMPCAALM6xgYGVABCwBT4AMaAAAAeNpjYGRgYGBn0GZgYgABEMkFhAwM/8F8BgANaAFLAAB42mNgZGFgnMDAysDA1Ml0hoGBoR9CM75mMGLkAIoysDIzYAUBaa4pDA7PGJ49ZG7438AQw9zA0AAUZgTJAQDrcAy8AHjaY2GAABYIDgLCBQx1AAcEAc8AeNpjYGBgZoBgGQZGBhDwAfIYwXwWBgMgzQGETAwMzxifcTx7+P8/kMUAYUkxS/6VVIXqAgNGNgY4lxGoB6QPBTAyDHsAADDkDYkAAAAAAAAAAAAAADQAagC2AN542m2QsU7DMBCG/Tt1bNPUiUnkSgiVtqKpxJAgVLVbeAa6MaK+B4JXgJWBjY21UtW5gpkdMTFX7dzApaJLhXU6n8+n//ttxtn458N79XJWZ8eMxS00C4wy9A1EP8PQncAlIQzS4WgsVtPpSmwzV3OFRqLetH5TSQMK939X61ptPZ2p2EAttNMLBRMrtschQblDeS34aY50cIkCzg/B2Y5C+VpyQxhFkRgu515O8jvU5mmPM2O0wJ5Z27vhX+yMsV437WvCdTM+GI40MgwKfuGammC0uURqeqFMfe9cxaJclkt5GMaB1hIR1VobOgpEiKq+sLZcIrJWhO3/Jw7qWlYj1Jf21FaCtmd5bevrlk28O/7A4spXTl4KTh9MTlqQ8PESBRstReic+sRj0Dni9fIqmNS/pXNWCvWOeYBmx5S9Bsn9Ah+5WtAAeNp9kD1OAzEQhZ/zByQSQiCoXVEA2vyUKRMp9Ailo0g23pBo1155nUg5AS0VB6DlGByAGyDRcgpelkmTImvt6PObmeexAZzjGwr/3yXuhBWO8ShcwREy4Sr1F+Ea+V24jhY+hRvUf4SbuFUD4RYu1BsdVO2Eu5vSbcsKZxgIV3CKJ+Eq9ZVwjfwqXMcVPoQb1L+EmxjjV7iFa2WpDOFhMEFgnEFjig3jAjEcLJIyBtahOfRmEsxMTzd6ETubOBso71dilwMeaDnngCntPbdmvkon/mDLgdSYbh4FS7YpjS4idCgbXyyc1d2oc7D9nu22tNi/a4E1x+xRDWzU/D3bM9JIbAyvkJI18jK3pBJTj2hrrPG7ZynW814IiU68y/SIx5o0dTr3bmniwOLn8owcfbS5kj33qBw+Y1kIeb/dTsQgil2GP5PYcRkAAAB42mNgYoAALjDJyIAO2MGiTIxMjMyMLIys7GmJeRmlmWZQ2pQ5OSORLaU0Mz2/FACDfwlbAAAAAf//AAIAAQAAAAwAAAAWAAAAAgABAAMABgABAAQAAAACAAAAAHjaY2BgYGQAgqtL1DlA9K2rT97DaABNlwiuAAA=)
-	format('woff');
+	src: url(data:application/font-woff;charset=utf-8;base64,d09GRgABAAAAAAVgAA0AAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABGRlRNAAAFRAAAABoAAAAci0/w50dERUYAAAUkAAAAHgAAAB4AKQANT1MvMgAAAaAAAABDAAAAVjxuSNNjbWFwAAAB+AAAAEoAAAFS5iPQt2dhc3AAAAUcAAAACAAAAAj//wADZ2x5ZgAAAlQAAAFHAAABvPf29TBoZWFkAAABMAAAADAAAAA2GMsN3WhoZWEAAAFgAAAAHQAAACQHjAOFaG10eAAAAeQAAAATAAAAFgzQAPJsb2NhAAACRAAAABAAAAAQAOoBSG1heHAAAAGAAAAAHgAAACABEwA3bmFtZQAAA5wAAAFJAAACiCnmEVVwb3N0AAAE6AAAADQAAABLUwjqHHjaY2BkYGAAYp5Gj5/x/DZfGbhZGEDg1tUn7+F00P/LzOuY9YFcDgYmkCgAa0gNlHjaY2BkYGBu+N/AEMPCAALM6xgYGVABCwBT4AMaAAAAeNpjYGRgYGBn0GZgYgABEMkFhAwM/8F8BgANaAFLAAB42mNgZGFgnMDAysDA1Ml0hoGBoR9CM75mMGLkAIoysDIzYAUBaa4pDA7PGJ49ZG7438AQw9zA0AAUZgTJAQDrcAy8AHjaY2GAABYIDgLCBQx1AAcEAc8AeNpjYGBgZoBgGQZGBhDwAfIYwXwWBgMgzQGETAwMzxifcTx7+P8/kMUAYUkxS/6VVIXqAgNGNgY4lxGoB6QPBTAyDHsAADDkDYkAAAAAAAAAAAAAADQAagC2AN542m2QsU7DMBCG/Tt1bNPUiUnkSgiVtqKpxJAgVLVbeAa6MaK+B4JXgJWBjY21UtW5gpkdMTFX7dzApaJLhXU6n8+n//ttxtn458N79XJWZ8eMxS00C4wy9A1EP8PQncAlIQzS4WgsVtPpSmwzV3OFRqLetH5TSQMK939X61ptPZ2p2EAttNMLBRMrtschQblDeS34aY50cIkCzg/B2Y5C+VpyQxhFkRgu515O8jvU5mmPM2O0wJ5Z27vhX+yMsV437WvCdTM+GI40MgwKfuGammC0uURqeqFMfe9cxaJclkt5GMaB1hIR1VobOgpEiKq+sLZcIrJWhO3/Jw7qWlYj1Jf21FaCtmd5bevrlk28O/7A4spXTl4KTh9MTlqQ8PESBRstReic+sRj0Dni9fIqmNS/pXNWCvWOeYBmx5S9Bsn9Ah+5WtAAeNp9kD1OAzEQhZ/zByQSQiCoXVEA2vyUKRMp9Ailo0g23pBo1155nUg5AS0VB6DlGByAGyDRcgpelkmTImvt6PObmeexAZzjGwr/3yXuhBWO8ShcwREy4Sr1F+Ea+V24jhY+hRvUf4SbuFUD4RYu1BsdVO2Eu5vSbcsKZxgIV3CKJ+Eq9ZVwjfwqXMcVPoQb1L+EmxjjV7iFa2WpDOFhMEFgnEFjig3jAjEcLJIyBtahOfRmEsxMTzd6ETubOBso71dilwMeaDnngCntPbdmvkon/mDLgdSYbh4FS7YpjS4idCgbXyyc1d2oc7D9nu22tNi/a4E1x+xRDWzU/D3bM9JIbAyvkJI18jK3pBJTj2hrrPG7ZynW814IiU68y/SIx5o0dTr3bmniwOLn8owcfbS5kj33qBw+Y1kIeb/dTsQgil2GP5PYcRkAAAB42mNgYoAALjDJyIAO2MGiTIxMjMyMLIys7GmJeRmlmWZQ2pQ5OSORLaU0Mz2/FACDfwlbAAAAAf//AAIAAQAAAAwAAAAWAAAAAgABAAMABgABAAQAAAACAAAAAHjaY2BgYGQAgqtL1DlA9K2rT97DaABNlwiuAAA=) format('woff');
 	font-weight: normal;
 	font-style: normal;
 }

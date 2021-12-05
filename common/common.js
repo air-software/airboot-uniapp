@@ -41,8 +41,8 @@ const tui = {
 	isPhoneX: function() {
 		const res = uni.getSystemInfoSync();
 		let iphonex = false;
-		let models=['iphonex','iphonexr','iphonexsmax','iphone11','iphone11pro','iphone11promax']
-		const model=res.model.replace(/\s/g,"").toLowerCase()
+		let models = ['iphonex', 'iphonexr', 'iphonexsmax', 'iphone11', 'iphone11pro', 'iphone11promax']
+		const model = res.model.replace(/\s/g, "").toLowerCase()
 		if (models.includes(model)) {
 			iphonex = true;
 		}
@@ -55,12 +55,20 @@ const tui = {
 		// #endif
 		return time
 	},
+	delayed: null,
+	showLoading: function(title, mask = true) {
+		uni.showLoading({
+			mask: mask,
+			title: title || '请稍候...'
+		})
+	},
 	/**
 	 * 请求数据处理
 	 * @param string url 请求地址
 	 * @param string method 请求方式
 	 *  GET or POST
 	 * @param {*} data 请求参数
+	 * @param bool isDelay 是否延迟显示loading
 	 * @param bool isForm 数据格式
 	 *  true: 'application/x-www-form-urlencoded'
 	 *  false:'application/json'
@@ -68,14 +76,23 @@ const tui = {
 	 *  true: 隐藏
 	 *  false:显示
 	 */
-	request: function({ url, method, data, isForm, hideLoading }) {
+	request: async function({ url, method, data, isDelay, isForm, hideLoading }) {
 		//接口请求
-		uni.hideLoading()
+		let loadding = false;
+		tui.delayed && uni.hideLoading();
+		clearTimeout(tui.delayed);
+		tui.delayed = null;
 		if (!hideLoading) {
-			uni.showLoading({
-				mask: true,
-				title: '请稍候...'
-			})
+			if (isDelay) {
+				// 设置延迟显示loading
+				tui.delayed = setTimeout(() => {
+					loadding = true
+					tui.showLoading()
+				}, 1000)
+			} else {
+				loadding = true
+				tui.showLoading()
+			}
 		}
 
 		return new Promise((resolve, reject) => {
@@ -90,6 +107,10 @@ const tui = {
 				dataType: 'json',
 				timeout: 15000,
 				success: (res) => {
+					if (loadding && !hideLoading) {
+						uni.hideLoading()
+					}
+					
 					// 未设置状态码则默认成功状态
 					const code = res.data.code || 200
 					// 获取错误信息
@@ -101,16 +122,19 @@ const tui = {
 						})
 					} else if (code !== 200) {
 						if (message) tui.toast(message)
-						else uni.hideLoading()
 						reject(res)
 					} else {
-						uni.hideLoading()
 						resolve(res.data.data)
 					}
 				},
 				fail: (res) => {
 					tui.toast("网络不给力，请稍后再试~")
 					reject(res)
+				},
+				complete: () => {
+					// 清空延时
+					clearTimeout(tui.delayed)
+					tui.delayed = null;
 				}
 			})
 		})
@@ -121,9 +145,7 @@ const tui = {
 	 * @param string src 文件路径
 	 */
 	uploadFile: function(url, src) {
-		uni.showLoading({
-			title: '请稍候...'
-		})
+		tui.showLoading()
 		return new Promise((resolve, reject) => {
 			const uploadTask = uni.uploadFile({
 				url: tui.interfaceUrl() + url,

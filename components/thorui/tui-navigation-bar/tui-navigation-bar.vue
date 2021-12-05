@@ -1,15 +1,11 @@
 <template>
-	<view
-		class="tui-navigation-bar"
-		:class="{ 'tui-bar-line': opacity > 0.85 && splitLine, 'tui-navbar-fixed': isFixed, 'tui-backdrop__filter': backdropFilter && dropDownOpacity > 0  }"
-		:style="{ height: height + 'px', backgroundColor: `rgba(${background},${opacity})`, opacity: dropDownOpacity, zIndex: isFixed ? zIndex : 'auto' }"
-	>
+	<view class="tui-navigation-bar"
+				:class="{ 'tui-bar-line': opacity > 0.85 && splitLine, 'tui-navbar-fixed': isFixed, 'tui-backdrop__filter': backdropFilter && dropDownOpacity > 0  }"
+				:style="{ height: height + 'px', backgroundColor: `rgba(${background},${opacity})`, opacity: dropDownOpacity, zIndex: isFixed ? zIndex : 'auto' }">
 		<view class="tui-status-bar" :style="{ height: statusBarHeight + 'px' }" v-if="isImmersive"></view>
-		<view
-			class="tui-navigation_bar-title"
-			:style="{ opacity: transparent || opacity >= maxOpacity ? 1 : opacity, color: color, paddingTop: top - statusBarHeight + 'px' }"
-			v-if="title && !isCustom"
-		>
+		<view class="tui-navigation_bar-title"
+					:style="{ opacity: transparent || opacity >= maxOpacity ? 1 : opacity, color: color, paddingTop: top - statusBarHeight + 'px' }"
+					v-if="title && !isCustom">
 			{{ title }}
 		</view>
 		<slot />
@@ -19,6 +15,7 @@
 <script>
 export default {
 	name: 'tuiNavigationBar',
+	emits: ['init', 'change'],
 	props: {
 		//NavigationBar标题
 		title: {
@@ -61,9 +58,9 @@ export default {
 			default: 0
 		},
 		/*
-			 isOpacity 为true时生效
-			 opacity=scrollTop /windowWidth * scrollRatio
-			*/
+       isOpacity 为true时生效
+       opacity=scrollTop /windowWidth * scrollRatio
+      */
 		scrollRatio: {
 			type: [Number, String],
 			default: 0.3
@@ -187,7 +184,8 @@ export default {
 			
 			let scroll = this.scrollTop <= 1 ? 0 : this.scrollTop;
 			let opacity = scroll / this.scrollH;
-			if ((this.opacity >= this.maxOpacity && opacity >= this.maxOpacity) || (this.opacity == 0 && opacity == 0)) {
+			if ((this.opacity >= this.maxOpacity && opacity >= this.maxOpacity) || (this.opacity == 0 && opacity ==
+				0)) {
 				return;
 			}
 			this.opacity = opacity > this.maxOpacity ? this.maxOpacity : opacity;
@@ -207,6 +205,7 @@ export default {
 	width: 100%;
 	transition: opacity 0.4s;
 }
+
 .tui-backdrop__filter {
 	/* Safari for macOS & iOS */
 	-webkit-backdrop-filter: blur(15px);
